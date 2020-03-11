@@ -1,3 +1,11 @@
+#
+# Import Main VPC Module
+module "main-vpc" {
+  source = "../../deps/tf_modules/vpc"
+  NAME = "${var.name}"
+  AVAILABILITY_ZONE = "${var.availability_zone}"
+}
+
 module "s3" {
   source = "./modules/s3"
   name   = "${var.name}"
@@ -10,7 +18,8 @@ module "iam" {
 module "security" {
   source              = "./modules/security"
   name                = "${var.name}"
-  vpc_id              = "${var.vpc_id}"
+  # vpc_id              = "${var.vpc_id}"
+  vpc_id              = "${module.main-vpc.vpc_id}"
   ingress_cidr_blocks = "${var.ingress_cidr_blocks}"
 }
 
@@ -19,7 +28,8 @@ module "emr" {
   name                      = "${var.name}"
   release_label             = "${var.release_label}"
   applications              = "${var.applications}"
-  subnet_id                 = "${var.subnet_id}"
+  # subnet_id                 = "${var.subnet_id}"
+  subnet_id                 = "${module.main-vpc.public_subnet}"
   key_name                  = "${var.key_name}"
   master_instance_type      = "${var.master_instance_type}"
   master_ebs_size           = "${var.master_ebs_size}"

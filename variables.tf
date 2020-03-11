@@ -1,7 +1,8 @@
 variable "name" {}
+variable "availability_zone" {}
 variable "region" {}
-variable "subnet_id" {}
-variable "vpc_id" {}
+# variable "subnet_id" {}
+# variable "vpc_id" {}
 variable "key_name" {}
 variable "release_label" {}
 variable "applications" {
